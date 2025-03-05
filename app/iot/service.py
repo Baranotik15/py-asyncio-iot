@@ -58,23 +58,12 @@ class IOTService:
 
     async def send_msg(self, msg: Message) -> None:
         device = self.devices[msg.device_id]
+        await device.send_message(msg.msg_type, msg.data)
 
-        if msg.msg_type == MessageType.SWITCH_ON:
-            await device.send_message(msg.msg_type, msg.data)
-
-        elif msg.msg_type == MessageType.PLAY_SONG:
-            await device.send_message(msg.msg_type, msg.data)
-
-        elif msg.msg_type == MessageType.FLUSH:
-            await device.send_message(msg.msg_type, msg.data)
-
-        elif msg.msg_type == MessageType.CLEAN:
-            await device.send_message(msg.msg_type, msg.data)
-
-        else:
-            await device.send_message(msg.msg_type, msg.data)
-
-    async def register_devices_simultaneously(self, devices: list[Device]) -> list[str]:
+    async def register_devices_simultaneously(
+            self,
+            devices: list[Device]
+    ) -> list[str]:
 
         tasks = [self.register_device(device) for device in devices]
         device_ids = await asyncio.gather(*tasks)

@@ -1,63 +1,47 @@
 import asyncio
-
 from .message import MessageType
 
 
 TIME_TO_SLEEP = 0.5
 
 
-class HueLightDevice:
+class Device:
+    def __init__(self, name: str) -> None:
+        self.name = name
+
     async def connect(self) -> None:
-        print("Connecting Hue Light.")
+        print(f"Connecting {self.name}.")
         await asyncio.sleep(TIME_TO_SLEEP)
-        print("Hue Light connected.")
+        print(f"{self.name} connected.")
 
     async def disconnect(self) -> None:
-        print("Disconnecting Hue Light.")
+        print(f"Disconnecting {self.name}.")
         await asyncio.sleep(TIME_TO_SLEEP)
-        print("Hue Light disconnected.")
+        print(f"{self.name} disconnected.")
 
-    async def send_message(self, message_type: MessageType, data: str = "") -> None:
+    async def send_message(
+            self,
+            message_type: MessageType,
+            data: str = ""
+    ) -> None:
         print(
-            f"Hue Light handling message of type {message_type.name} with data [{data}]."
+            f"{self.name} handling message of type"
+            f" {message_type.name} with data [{data}]."
         )
         await asyncio.sleep(TIME_TO_SLEEP)
-        print("Hue Light received message.")
+        print(f"{self.name} received message.")
 
 
-class SmartSpeakerDevice:
-    async def connect(self) -> None:
-        print("Connecting to Smart Speaker.")
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Speaker connected.")
-
-    async def disconnect(self) -> None:
-        print("Disconnecting Smart Speaker.")
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Speaker disconnected.")
-
-    async def send_message(self, message_type: MessageType, data: str = "") -> None:
-        print(
-            f"Smart Speaker handling message of type {message_type.name} with data [{data}]."
-        )
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Speaker received message.")
+class HueLightDevice(Device):
+    def __init__(self, name: str = "Hue Light") -> None:
+        super().__init__(name)
 
 
-class SmartToiletDevice:
-    async def connect(self) -> None:
-        print("Connecting to Smart Toilet.")
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Toilet connected.")
+class SmartSpeakerDevice(Device):
+    def __init__(self, name: str = "Smart Speaker") -> None:
+        super().__init__(name)
 
-    async def disconnect(self) -> None:
-        print("Disconnecting Smart Toilet.")
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Toilet disconnected.")
 
-    async def send_message(self, message_type: MessageType, data: str = "") -> None:
-        print(
-            f"Smart Toilet handling message of type {message_type.name} with data [{data}]."
-        )
-        await asyncio.sleep(TIME_TO_SLEEP)
-        print("Smart Toilet received message.")
+class SmartToiletDevice(Device):
+    def __init__(self, name: str = "Smart Toilet") -> None:
+        super().__init__(name)
